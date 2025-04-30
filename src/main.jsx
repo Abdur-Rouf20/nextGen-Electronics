@@ -1,21 +1,23 @@
-// src/main.jsx
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import { Elements } from '@stripe/react-stripe-js';
-import { stripePromise } from './stripe';
+import { loadStripe } from '@stripe/stripe-js'; // 👈 Import from stripe-js
 import App from './App';
 import './index.css';
+import { CartProvider } from './context/CartContext';
 
-const rootEl = document.getElementById('root');
-const root = ReactDOM.createRoot(rootEl);
+// 👇 Use environment variable directly here
+const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY);
 
-root.render(
+ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <BrowserRouter>
-      <Elements stripe={stripePromise}>
-        <App />
-      </Elements>
+      <CartProvider>
+        <Elements stripe={stripePromise}>
+          <App />
+        </Elements>
+      </CartProvider>
     </BrowserRouter>
   </React.StrictMode>
 );

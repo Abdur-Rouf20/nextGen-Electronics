@@ -1,13 +1,20 @@
+// vite.config.js
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 
 export default defineConfig({
   plugins: [
-    react(),               // ← enables the React JSX transform/runtime
+    react(), // enables the React JSX transform/runtime
   ],
   server: {
+    proxy: {
+      '/api': {
+        target: 'http://localhost:5000', // backend server running on port 5000
+        changeOrigin: true,
+        secure: false,
+      },
+    },
     headers: {
-      // only for local dev—allows inline styles/eval needed by Stripe etc
       "Content-Security-Policy": "default-src * 'unsafe-inline' 'unsafe-eval' data: blob:;"
     }
   }

@@ -1,4 +1,3 @@
-// src/pages/Login.jsx
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -13,16 +12,24 @@ export default function Login() {
     e.preventDefault();
 
     try {
-      const response = await axios.post('/api/auth/login', { email, password });
-      localStorage.setItem('token', response.data.token);  // Save token to localStorage
-      navigate('/checkout');  // Redirect to checkout page
+      // Send POST request with email and password
+      const response = await axios.post('http://localhost:5000/api/auth/login', { email, password });
+
+      // If login is successful
+      if (response.data.message === 'Login successful') {
+        localStorage.setItem('token', response.data.token); // Save JWT token
+        navigate('/checkout'); // Navigate to protected page
+      } else {
+        setError('Invalid credentials. Please try again.');
+      }
     } catch (err) {
+      console.error('Login error:', err);
       setError('Invalid credentials. Please try again.');
     }
   };
 
   const goToRegister = () => {
-    navigate('/register');  // Navigate to Register page
+    navigate('/register');
   };
 
   return (

@@ -3,9 +3,10 @@ import React, { useState, useContext, useEffect } from 'react';
 import { loadStripe } from '@stripe/stripe-js';
 import { Elements, CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import { useNavigate } from 'react-router-dom';
-import CartContext from '../context/CartContext';
+import {CartContext} from '../context/CartContext';
 import axios from 'axios';
 
+// Ensure you are properly loading the Stripe public key from Vite environment variables
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY);
 
 function CheckoutForm() {
@@ -24,7 +25,7 @@ function CheckoutForm() {
     setTotal(amount);
 
     if (cart.length) {
-      axios.post('/api/orders/create-payment-intent', { amount })
+      axios.post('http://localhost:5000/api/orders/create-payment-intent', { amount })
         .then(res => setClientSecret(res.data.clientSecret))
         .catch(() => setError('Unable to initialize payment.'));
     }

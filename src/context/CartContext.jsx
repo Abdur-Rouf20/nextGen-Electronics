@@ -1,7 +1,9 @@
 // src/context/CartContext.jsx
 import { createContext, useReducer } from 'react';
 
-const CartContext = createContext();
+export const CartContext = createContext();
+
+const initialState = [];  // ✅ Clear and explicit
 
 const cartReducer = (state, action) => {
   switch (action.type) {
@@ -17,12 +19,11 @@ const cartReducer = (state, action) => {
 };
 
 export const CartProvider = ({ children }) => {
-  const [cart, dispatch] = useReducer(cartReducer, []);
+  const [cart, dispatch] = useReducer(cartReducer, initialState);
+
   return (
     <CartContext.Provider value={{ cart, dispatch }}>
       {children}
     </CartContext.Provider>
   );
 };
-
-export default CartContext;

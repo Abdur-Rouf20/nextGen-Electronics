@@ -1,32 +1,32 @@
 // src/App.jsx
 import React from 'react';
-import { Routes, Route } from 'react-router-dom';  // Import Routes and Route
-import { CartProvider } from './context/CartContext';  // Correct import of CartProvider
-import Shop from './pages/Shop';  // Shop page
-import Checkout from './pages/Checkout';  // Checkout page
-import Payment from './pages/Payment';  // Payment page
-import PrivateRoute from './context/PrivateRoute';  // Protect checkout and payment routes
+import { Routes, Route } from 'react-router-dom'; // ✅ Removed BrowserRouter
+import Shop from './pages/Shop';
+import Checkout from './pages/Checkout';
+import Payment from './pages/Payment';
+import PrivateRoute from './context/PrivateRoute';
 import Login from './pages/Login';
 import Register from './pages/Register';
+import Navbar from './context/Navbar'; // ✅ Navbar stays
 
 function App() {
   return (
-    <CartProvider>  {/* Make sure to wrap everything in CartContext if you use the context */}
+    <>
+      <Navbar /> {/* ✅ Navbar stays visible on all routes */}
       <Routes>
-        <Route path="/" element={<Shop />} />  {/* Default route */}
+        <Route path="/" element={<Shop />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        {/* Protected routes */}
-        <Route 
-          path="/checkout" 
+        <Route
+          path="/checkout"
           element={
             <PrivateRoute>
               <Checkout />
             </PrivateRoute>
           }
         />
-        <Route 
-          path="/payment" 
+        <Route
+          path="/payment"
           element={
             <PrivateRoute>
               <Payment />
@@ -34,7 +34,7 @@ function App() {
           }
         />
       </Routes>
-    </CartProvider>
+    </>
   );
 }
 
