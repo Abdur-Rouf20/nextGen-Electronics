@@ -12,13 +12,11 @@ export default function Login() {
     e.preventDefault();
 
     try {
-      // Send POST request with email and password
       const response = await axios.post('http://localhost:5000/api/auth/login', { email, password });
 
-      // If login is successful
       if (response.data.message === 'Login successful') {
-        localStorage.setItem('token', response.data.token); // Save JWT token
-        navigate('/checkout'); // Navigate to protected page
+        localStorage.setItem('token', response.data.token);
+        navigate('/checkout');
       } else {
         setError('Invalid credentials. Please try again.');
       }
@@ -32,42 +30,86 @@ export default function Login() {
     navigate('/register');
   };
 
+  // Inline styles
+  const containerStyle = {
+    minHeight: '100vh',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    background: 'linear-gradient(to bottom right, #e0f2ff, #ffffff)',
+  };
+
+  const cardStyle = {
+    backgroundColor: 'white',
+    padding: '30px',
+    borderRadius: '8px',
+    boxShadow: '0 2px 10px rgba(0,0,0,0.1)',
+    width: '100%',
+    maxWidth: '400px',
+  };
+
+  const inputStyle = {
+    width: '100%',
+    padding: '10px',
+    marginTop: '5px',
+    marginBottom: '15px',
+    border: '1px solid #ccc',
+    borderRadius: '4px',
+  };
+
+  const buttonStyle = {
+    width: '100%',
+    padding: '10px',
+    backgroundColor: '#007bff',
+    color: '#fff',
+    border: 'none',
+    borderRadius: '4px',
+    cursor: 'pointer',
+  };
+
+  const errorStyle = {
+    color: 'red',
+    marginBottom: '10px',
+  };
+
   return (
-    <div className="p-6 max-w-md mx-auto">
-      <h2 className="text-center text-2xl font-bold mb-4">Login</h2>
-      {error && <p className="text-red-500">{error}</p>}
-      <form onSubmit={handleLogin} className="space-y-4">
-        <div>
-          <label className="block text-sm font-medium">Email</label>
-          <input
-            type="email"
-            className="w-full p-2 border rounded"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-        </div>
-        <div>
-          <label className="block text-sm font-medium">Password</label>
-          <input
-            type="password"
-            className="w-full p-2 border rounded"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </div>
-        <button type="submit" className="w-full py-2 bg-blue-600 text-white rounded">
-          Login
-        </button>
-      </form>
-      <div className="mt-4 text-center">
-        <p className="text-sm">
-          Don't have an account?{' '}
-          <button onClick={goToRegister} className="text-blue-600">
-            Register here
+    <div style={containerStyle}>
+      <div style={cardStyle}>
+        <h2 style={{ textAlign: 'center', marginBottom: '20px' }}>Login</h2>
+        {error && <p style={errorStyle}>{error}</p>}
+        <form onSubmit={handleLogin}>
+          <div>
+            <label>Email</label>
+            <input
+              type="email"
+              style={inputStyle}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+          </div>
+          <div>
+            <label>Password</label>
+            <input
+              type="password"
+              style={inputStyle}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </div>
+          <button type="submit" style={buttonStyle}>
+            Login
           </button>
-        </p>
+        </form>
+        <div style={{ marginTop: '15px', textAlign: 'center' }}>
+          <p style={{ fontSize: '14px' }}>
+            Don't have an account?{' '}
+            <button onClick={goToRegister} style={{ color: '#007bff', background: 'none', border: 'none', cursor: 'pointer' }}>
+              Register here
+            </button>
+          </p>
+        </div>
       </div>
     </div>
   );

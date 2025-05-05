@@ -5,7 +5,7 @@ import Stripe from 'stripe';
 const stripe = Stripe(process.env.STRIPE_SECRET_KEY);
 const router = express.Router();
 
-// Create Payment Intent (updated to match with your requirements)
+// Create Payment Intent 
 router.post('/create-payment-intent', async (req, res) => {
   const { items } = req.body;
 
@@ -16,7 +16,7 @@ router.post('/create-payment-intent', async (req, res) => {
     // Create a Payment Intent with the amount and currency
     const paymentIntent = await stripe.paymentIntents.create({
       amount: amount * 100, // Convert amount to cents (Stripe expects cents)
-      currency: 'usd', // Use appropriate currency
+      currency: 'BDT', 
     });
 
     // Respond with the client secret to be used in the frontend
@@ -27,14 +27,14 @@ router.post('/create-payment-intent', async (req, res) => {
   }
 });
 
-// Create Stripe Checkout Session (if you still want to include this route for other use cases)
+// Create Stripe Checkout Session 
 router.post('/create-session', async (req, res) => {
   const { items } = req.body;
 
   // Map cart items to Stripe line items
   const lineItems = items.map(item => ({
     price_data: {
-      currency: 'usd',
+      currency: 'BDT',
       product_data: {
         name: item.name,
       },

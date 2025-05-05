@@ -1,6 +1,5 @@
-// src/pages/Checkout.jsx
 import { useContext } from 'react';
-import {CartContext}from '../context/CartContext';
+import { CartContext } from '../context/CartContext';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
@@ -42,36 +41,81 @@ export default function Checkout() {
 
   const navigate = useNavigate();
   const handleProceedToPayment = () => {
-    //setShowPaymentForm(true); // Show the Stripe CheckoutForm
     navigate('/payment');
   };
 
+  const containerStyle = {
+    padding: '24px',
+    maxWidth: '500px',
+    margin: 'auto',
+    backgroundColor: '#fff',
+    borderRadius: '8px',
+    boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+  };
+
+  const headingStyle = {
+    fontSize: '24px',
+    fontWeight: 'bold',
+    marginBottom: '16px',
+    textAlign: 'center',
+  };
+
+  const listItemStyle = {
+    borderBottom: '1px solid #ddd',
+    padding: '8px 0',
+    fontSize: '14px',
+  };
+
+  const totalPriceStyle = {
+    marginTop: '16px',
+    fontSize: '18px',
+    fontWeight: '600',
+  };
+
+  const buttonStyle = {
+    width: '100%',
+    padding: '12px',
+    borderRadius: '4px',
+    color: '#fff',
+    fontSize: '16px',
+    border: 'none',
+    cursor: 'pointer',
+    marginTop: '16px',
+  };
+
+  const generateInvoiceButtonStyle = {
+    backgroundColor: '#28a745',
+  };
+
+  const proceedToPaymentButtonStyle = {
+    backgroundColor: '#007bff',
+  };
+
   return (
-    <div className="p-6 max-w-md mx-auto">
-      <h2 className="text-2xl font-bold mb-4">Checkout</h2>
-      <ul className="space-y-2">
+    <div style={containerStyle}>
+      <h2 style={headingStyle}>Checkout</h2>
+      <ul>
         {cart.map((p) => (
-          <li key={p._id} className="border-b py-1">
+          <li key={p._id} style={listItemStyle}>
             {p.title} - ${p.price}
           </li>
         ))}
       </ul>
-      <p className="mt-4 font-semibold">Total: ${total}</p>
-        <>
-          <button
-            onClick={handleInvoice}
-            className="mt-4 w-full py-2 bg-green-600 text-white rounded hover:bg-green-700"
-          >
-            Generate Invoice
-          </button>
+      <p style={totalPriceStyle}>Total: ${total}</p>
 
-          <button
-            onClick={handleProceedToPayment}
-            className="mt-4 w-full py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
-          >
-            Proceed to Payment
-          </button>
-        </>
+      <button
+        onClick={handleInvoice}
+        style={{ ...buttonStyle, ...generateInvoiceButtonStyle }}
+      >
+        Generate Invoice
+      </button>
+
+      <button
+        onClick={handleProceedToPayment}
+        style={{ ...buttonStyle, ...proceedToPaymentButtonStyle }}
+      >
+        Proceed to Payment
+      </button>
     </div>
   );
 }

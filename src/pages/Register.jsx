@@ -1,4 +1,3 @@
-// src/pages/Register.jsx
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -26,51 +25,104 @@ export default function Register() {
     }
   };
 
+  const containerStyle = {
+    padding: '24px',
+    maxWidth: '400px',
+    margin: 'auto',
+    backgroundColor: '#fff',
+    borderRadius: '8px',
+    boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+  };
+
+  const headingStyle = {
+    textAlign: 'center',
+    fontSize: '24px',
+    fontWeight: 'bold',
+    marginBottom: '16px',
+  };
+
+  const labelStyle = {
+    display: 'block',
+    fontSize: '14px',
+    fontWeight: '500',
+    marginBottom: '8px',
+  };
+
+  const inputStyle = {
+    width: '100%',
+    padding: '12px',
+    border: '1px solid #ddd',
+    borderRadius: '4px',
+    marginBottom: '16px',
+    fontSize: '14px',
+  };
+
+  const buttonStyle = {
+    width: '100%',
+    padding: '12px',
+    backgroundColor: '#4CAF50',
+    color: '#fff',
+    borderRadius: '4px',
+    fontSize: '16px',
+    cursor: 'pointer',
+    border: 'none',
+  };
+
+  const errorStyle = {
+    color: '#FF4C4C',
+    marginBottom: '16px',
+  };
+
+  const linkStyle = {
+    color: '#007BFF',
+    cursor: 'pointer',
+  };
+
   return (
-    <div className="p-6 max-w-md mx-auto">
-      <h2 className="text-center text-2xl font-bold mb-4">Register</h2>
-      {error && <p className="text-red-500">{error}</p>}
-      <form onSubmit={handleRegister} className="space-y-4">
+    <div style={containerStyle}>
+      <h2 style={headingStyle}>Register</h2>
+      {error && <p style={errorStyle}>{error}</p>}
+      <form onSubmit={handleRegister}>
         <div>
-          <label className="block text-sm font-medium">Email</label>
+          <label style={labelStyle}>Email</label>
           <input
             type="email"
-            className="w-full p-2 border rounded"
+            style={inputStyle}
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
           />
         </div>
         <div>
-          <label className="block text-sm font-medium">Password</label>
+          <label style={labelStyle}>Password</label>
           <input
             type="password"
-            className="w-full p-2 border rounded"
+            style={inputStyle}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
           />
         </div>
         <div>
-          <label className="block text-sm font-medium">Confirm Password</label>
+          <label style={labelStyle}>Confirm Password</label>
           <input
             type="password"
-            className="w-full p-2 border rounded"
+            style={inputStyle}
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
             required
           />
         </div>
-        <button type="submit" className="w-full py-2 bg-blue-600 text-white rounded">
+        <button type="submit" style={buttonStyle}>
           Register
         </button>
       </form>
-      <div className="mt-4 text-center">
-        <p className="text-sm">
+      <div style={{ textAlign: 'center', marginTop: '16px' }}>
+        <p style={{ fontSize: '14px' }}>
           Already have an account?{' '}
-          <button onClick={() => navigate('/login')} className="text-blue-600">
+          <span onClick={() => navigate('/login')} style={linkStyle}>
             Login here
-          </button>
+          </span>
         </p>
       </div>
     </div>

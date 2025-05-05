@@ -1,9 +1,8 @@
-// src/pages/Payment.jsx
 import React, { useState, useContext, useEffect } from 'react';
 import { loadStripe } from '@stripe/stripe-js';
 import { Elements, CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import { useNavigate } from 'react-router-dom';
-import {CartContext} from '../context/CartContext';
+import { CartContext } from '../context/CartContext';
 import axios from 'axios';
 
 // Ensure you are properly loading the Stripe public key from Vite environment variables
@@ -51,22 +50,71 @@ function CheckoutForm() {
     }
   };
 
+  const formContainerStyle = {
+    padding: '16px',
+    maxWidth: '500px',
+    margin: 'auto',
+    backgroundColor: '#fff',
+    borderRadius: '8px',
+    boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+  };
+
+  const headingStyle = {
+    fontSize: '20px',
+    fontWeight: 'bold',
+    marginBottom: '12px',
+    textAlign: 'center',
+  };
+
+  const errorMessageStyle = {
+    color: '#f87171',
+    textAlign: 'center',
+    fontSize: '14px',
+  };
+
+  const cardElementStyle = {
+    padding: '8px',
+    border: '1px solid #ddd',
+    borderRadius: '4px',
+    marginBottom: '16px',
+  };
+
+  const buttonStyle = {
+    width: '100%',
+    padding: '12px',
+    fontSize: '16px',
+    borderRadius: '4px',
+    border: 'none',
+    cursor: 'pointer',
+    color: '#fff',
+    backgroundColor: '#007bff',
+  };
+
+  const disabledButtonStyle = {
+    backgroundColor: '#cccccc',
+    cursor: 'not-allowed',
+  };
+
   return (
-    <form onSubmit={handleSubmit} className="space-y-4 p-4 max-w-md mx-auto">
-      <h2 className="text-xl font-bold">Total: ${total.toFixed(2)}</h2>
-      {error && <p className="text-red-500">{error}</p>}
+    <form onSubmit={handleSubmit} style={formContainerStyle}>
+      <h2 style={headingStyle}>Total: ${total.toFixed(2)}</h2>
+      {error && <p style={errorMessageStyle}>{error}</p>}
 
       {!cart.length ? (
-        <p>Your cart is empty.</p>
+        <p style={{ textAlign: 'center' }}>Your cart is empty.</p>
       ) : !clientSecret ? (
-        <p>Loading payment details…</p>
+        <p style={{ textAlign: 'center' }}>Loading payment details…</p>
       ) : (
         <>
-          <CardElement className="p-2 border rounded" />
+          <CardElement style={cardElementStyle} />
           <button
             type="submit"
             disabled={!stripe || loading}
-            className={`w-full py-2 text-white rounded ${loading ? 'bg-gray-400' : 'bg-blue-600 hover:bg-blue-700'}`}>
+            style={{
+              ...buttonStyle,
+              ...(loading ? disabledButtonStyle : {}),
+            }}
+          >
             {loading ? 'Processing…' : `Pay $${total.toFixed(2)}`}
           </button>
         </>

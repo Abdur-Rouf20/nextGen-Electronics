@@ -1,6 +1,6 @@
 // backend/routes/auth.js
 import express from 'express';
-import User from '../models/User.js';  // Assuming you have a User model
+import User from '../models/User.js';  
 import bcrypt from 'bcryptjs';  // For password hashing
 import jwt from 'jsonwebtoken';  // For generating JWTs
 

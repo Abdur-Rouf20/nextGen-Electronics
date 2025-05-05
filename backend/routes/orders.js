@@ -36,33 +36,9 @@ router.post('/create-payment-intent', async (req, res) => {
 });
 
 /** 
-// POST /api/orders/invoice
-router.post('/invoice', verifyToken, async (req, res) => {
-  try {
-    const { items } = req.body;  // 👈 Get cart items from request
-
-    if (!items || !Array.isArray(items)) {
-      return res.status(400).json({ message: 'Invalid items data' });
-    }
-
-    // Save the invoice data temporarily somewhere (for now, generate an invoice id)
-    const invoiceId = Math.floor(Math.random() * 100000);
-
-    // For demo, store cart data in a simple memory object (in real life, you'd save it in DB)
-    global.generatedInvoices = global.generatedInvoices || {};
-    global.generatedInvoices[invoiceId] = items;
-
-    // Send back the invoice URL
-    const invoiceUrl = `http://localhost:5000/api/orders/invoices/${invoiceId}`;
-    res.status(200).json({ invoiceUrl });
-
-  } catch (error) {
-    console.error('Error generating invoice:', error);
-    res.status(500).json({ message: 'Invoice generation failed' });
-  }
-});    
-
-  */
+  * Route to handle order creation
+  * Comments removed for brevity
+*/
 router.post('/', verifyToken, async (req, res) => {
   const { userId, products } = req.body;
   try {
@@ -101,7 +77,7 @@ router.get('/invoices/:id', (req, res) => {
   }
 
   const itemsHtml = items.map(item => 
-    `<li>${item.title} - $${item.price}</li>`
+    `<li style="padding: 5px 0; font-size: 16px; color: #555;">${item.title} - $${item.price}</li>`
   ).join('');
 
   const total = items.reduce((sum, item) => sum + item.price, 0);
@@ -110,12 +86,61 @@ router.get('/invoices/:id', (req, res) => {
     <html>
       <head>
         <title>Invoice #${id}</title>
+        <style>
+          body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+          }
+          .container {
+            width: 100%;
+            max-width: 900px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+          }
+          h1 {
+            text-align: center;
+            font-size: 28px;
+            color: #007bff;
+          }
+          h3 {
+            font-size: 20px;
+            color: #333;
+          }
+          ul {
+            list-style-type: none;
+            padding-left: 0;
+          }
+          .total {
+            font-weight: bold;
+            font-size: 18px;
+            color: #007bff;
+            text-align: right;
+          }
+          footer {
+            text-align: center;
+            font-size: 14px;
+            color: #888;
+            margin-top: 20px;
+          }
+        </style>
       </head>
-      <body style="font-family: Arial, sans-serif; padding: 20px;">
-        <h1>Invoice #${id}</h1>
-        <ul>${itemsHtml}</ul>
-        <h3>Total: $${total}</h3>
-        <p>Thank you for your order!</p>
+      <body>
+        <div class="container">
+          <h1>Invoice #${id}</h1>
+          <ul>
+            ${itemsHtml}
+          </ul>
+          <h3 class="total">Total: $${total}</h3>
+          <footer>
+            <p>Thank you for your order! If you have any questions, feel free to contact us.</p>
+          </footer>
+        </div>
       </body>
     </html>
   `);
@@ -142,7 +167,7 @@ router.post('/invoice', verifyToken, async (req, res) => {
       res.send(pdfData);
     });
 
-    // Build the invoice content
+    // Build the invoice content in PDF
     doc.fontSize(20).text('Invoice', { align: 'center' });
     doc.moveDown();
 
