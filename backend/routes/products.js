@@ -22,7 +22,13 @@ router.post("/add", async (req, res) => {
   try {
     const { name, price, image, description } = req.body;
 
-    const newProduct = new Product({ name, price, image, description });
+    const newProduct = new Product({ 
+      title: name,          // Map name to title
+      price, 
+      imageUrl: image,      // Map image to imageUrl
+      description 
+    });
+
     await newProduct.save();
 
     res.status(201).json({ message: "Product added successfully", product: newProduct });
@@ -30,4 +36,6 @@ router.post("/add", async (req, res) => {
     res.status(500).json({ error: "Failed to add product" });
   }
 });
+
+
 export default router;

@@ -1,9 +1,8 @@
-// src/context/CartContext.jsx
 import { createContext, useReducer } from 'react';
 
-export const CartContext = createContext();
+export const CartContext = createContext(); // named export
 
-const initialState = [];  // ✅ Clear and explicit
+const initialState = [];
 
 const cartReducer = (state, action) => {
   switch (action.type) {
@@ -27,3 +26,5 @@ export const CartProvider = ({ children }) => {
     </CartContext.Provider>
   );
 };
+
+export default CartContext; //Add this line to support default import
