@@ -8,9 +8,7 @@ import connectDB from './config/db.js';
 import authRoutes from './routes/auth.js';
 import productRoutes from './routes/products.js';
 import ordersRouter from './routes/orders.js';
-//import orderRoutes from './routes/orders.js';
-import paymentRoutes from './routes/payment.js'; // ✅ Add this line
-
+import paymentRoutes from './routes/payment.js';
 const app = express();
 connectDB();
 
@@ -38,9 +36,8 @@ app.use(express.json());
 // API Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/products', productRoutes);
-//app.use('/api/orders', orderRoutes);
 app.use('/api/orders', ordersRouter);
-app.use('/api/payment', paymentRoutes); // ✅ Add this line to include payment route
+app.use('/api/payment', paymentRoutes); // payment route
 
 // Health check
 app.get('/', (req, res) => res.send('API is running'));
